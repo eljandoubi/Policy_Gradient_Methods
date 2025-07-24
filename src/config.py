@@ -34,7 +34,7 @@ class base_config:
             if not self.ppo
             else "ppo"
         )
-        print("baseline_str", baseline_str)
+
         if self.ppo:
             self.use_baseline = True
         seed_str = f"seed={self.seed}"
