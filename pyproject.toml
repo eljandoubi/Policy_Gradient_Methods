@@ -1,0 +1,14 @@
+[project]
+name = "policy-gradient-methods"
+version = "0.1.0"
+description = "Solve gym environments with policy gradient methods like PPO."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "gym>=0.26.2",
+    "matplotlib>=3.10.3",
+    "mujoco>=3.3.4",
+    "numpy>=2.2.6",
+    "scipy>=1.15.3",
+    "torch>=2.7.1",
+]
