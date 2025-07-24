@@ -1,9 +1,9 @@
 import logging
 import argparse
 import random
-import gym
 import torch
 import numpy as np
+import gymnasium as gym
 from ppo import PPO
 from config import get_config
 from policy_gradient import PolicyGradient
