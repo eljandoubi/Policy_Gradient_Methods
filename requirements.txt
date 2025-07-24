@@ -3,3 +3,4 @@ torch
 gym
 matplotlib
 scipy
+mujoco
