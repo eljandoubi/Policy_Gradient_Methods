@@ -25,9 +25,10 @@ parser.set_defaults(use_baseline=True)
 if __name__ == "__main__":
     args = parser.parse_args()
 
-    torch.random.manual_seed(args.seed)
-    np.random.seed(args.seed)
     random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.random.manual_seed(args.seed)
+    torch.cuda.random.manual_seed_all(args.seed)
 
     config = get_config(args.env_name, args.use_baseline, args.ppo, args.seed)
     env = gym.make(config.env_name)
