@@ -37,3 +37,13 @@ For env's plot,
 ```shell
 python src/plot.py --env-name ENV --seeds SEEDS
 ```
+
+# Remove
+
+If you work in Linux/Mac:
+
+* You can delete the the environment and the result folder with:
+
+    ```bash
+   make clean
+    ```
