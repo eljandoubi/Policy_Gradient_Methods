@@ -10,14 +10,14 @@ matplotlib.use("Agg")
 
 
 ENV_MAP = {
-    "cartpole": "CartPoleBulletEnv-v1",
-    "pendulum": "InvertedPendulumBulletEnv-v0",
-    "cheetah": "HalfCheetahBulletEnv-v0",
+    "cartpole": "CartPole-v1",
+    "pendulum": "InvertedPendulum-v5",
+    "cheetah": "HalfCheetah-v5",
 }
 
 
 def early_exit(message):
-    print(message)
+    logging.error(message)
     exit()
 
 

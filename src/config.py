@@ -8,7 +8,7 @@ class base_config:
     seed: int
     use_baseline: bool = field(default=False)
     env_name: str = field(init=False)
-    record: bool = field(init=False, default=False)
+    record: bool = field(default=True)
     output_path: str = field(init=False)
     model_output: str = field(init=False)
     log_path: str = field(init=False)
@@ -34,6 +34,7 @@ class base_config:
             if not self.ppo
             else "ppo"
         )
+        print("baseline_str", baseline_str)
         if self.ppo:
             self.use_baseline = True
         seed_str = f"seed={self.seed}"
@@ -68,7 +69,7 @@ class config_cartpole(base_config):
 @dataclass
 class config_pendulum(base_config):
     def __post_init__(self):
-        self.env_name = "InvertedPendulum-v4"
+        self.env_name = "InvertedPendulum-v5"
         self.num_batches = 100
         self.batch_size = 10000
         self.max_ep_len = 1000
@@ -85,7 +86,7 @@ class config_pendulum(base_config):
 @dataclass
 class config_cheetah(base_config):
     def __post_init__(self):
-        self.env_name = "HalfCheetah-v4"
+        self.env_name = "HalfCheetah-v5"
         self.num_batches = 200
         self.batch_size = 10000
         self.max_ep_len = 1000
@@ -106,11 +107,11 @@ def get_config(
     seed: int = 15,
 ) -> base_config:
     if env_name == "cartpole":
-        return config_cartpole(baseline, ppo, seed)
+        return config_cartpole(ppo, seed, baseline)
     elif env_name == "pendulum":
-        return config_pendulum(baseline, ppo, seed)
+        return config_pendulum(ppo, seed, baseline)
     elif env_name == "cheetah":
-        return config_cheetah(baseline, ppo, seed)
+        return config_cheetah(ppo, seed, baseline)
     else:
         raise ValueError(
             f"Unknown environment name: {env_name}. "

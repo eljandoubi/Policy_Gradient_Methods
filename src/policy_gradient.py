@@ -1,9 +1,9 @@
 import os
 from logging import Logger
-from typing import Optional, List, Deque, Dict
+from typing import Optional, List, Deque, Dict, Literal
 import torch
-import gym
-from gym.spaces import Discrete
+import gymnasium as gym
+from gymnasium.spaces import Discrete
 import numpy as np
 from general import get_logger, export_plot
 from baseline_network import BaselineNetwork
@@ -315,7 +315,7 @@ class PolicyGradient:
             self.config.plot_output,
         )
 
-    def evaluate(self, env=None, num_episodes=1):
+    def evaluate(self, env: Optional[gym.Env] = None, num_episodes: int = 1):
         """
         Evaluates the return for num_episodes episodes.
         Not used right now, all evaluation statistics are computed during training
@@ -330,16 +330,20 @@ class PolicyGradient:
         self.logger.info(msg)
         return avg_reward
 
-    def record(self):
+    def record(self, time: Literal["before", "after"]):
         """
         Recreate an env and record a video for one episode
         """
-        env = gym.make(self.config.env_name)
+        env = gym.make(self.config.env_name, render_mode="rgb_array")
         env.reset(seed=self.seed)
         env = gym.wrappers.RecordVideo(
-            env, self.config.record_path, episode_trigger=lambda episode_id: True
+            env,
+            self.config.record_path,
+            episode_trigger=lambda episode_id: True,
+            name_prefix=time,
         )
         self.evaluate(env, 1)
+        env.close()
 
     def run(self):
         """
@@ -347,12 +351,12 @@ class PolicyGradient:
         """
         # record one game at the beginning
         if self.config.record:
-            self.record()
+            self.record("before")
         # model
         self.train()
         # record one game at the end
         if self.config.record:
-            self.record()
+            self.record("after")
 
 
 if __name__ == "__main__":
@@ -368,4 +372,5 @@ if __name__ == "__main__":
         config.normalize_advantage = True  # Enable advantage normalization
         pg = PolicyGradient(env, config, seed=config.seed)
         pg.logger.info("Starting training PolicyGradient... for %s", config.env_name)
-        pg.train()
+        pg.run()
+        env.close()

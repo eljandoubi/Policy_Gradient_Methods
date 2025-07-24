@@ -1,8 +1,8 @@
 from logging import Logger
 from typing import Optional
-import gym
 import torch
 import numpy as np
+import gymnasium as gym
 from general import export_plot
 from network_utils import np2torch
 from policy_gradient import PolicyGradient
@@ -173,4 +173,5 @@ if __name__ == "__main__":
         config.normalize_advantage = True  # Enable advantage normalization
         ppo = PPO(env, config, seed=config.seed)
         ppo.logger.info("Starting training PPO... for %s", config.env_name)
-        ppo.train()
+        ppo.run()
+        env.close()
